@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import FormTodo from "./components/FormTodo";
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
+  const todoSelector = useSelector((state) => state.todos);
+  const dispatch = useDispatch();
+
+  const changeStatus = (nama) => {
+    dispatch({ type: "CHANGE_STATUS_TODO", payload: nama });
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <FormTodo />
+      <ol>
+        {todoSelector.map((todo) => (
+          <li onClick={() => changeStatus(todo.nama)}>
+            {todo.nama} = {todo.status.toString()}
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }
